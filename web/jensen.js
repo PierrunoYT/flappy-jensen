@@ -150,21 +150,39 @@
     ctx.beginPath(); ctx.roundRect(-24,0,65,14,7); ctx.fill();
     ctx.beginPath(); ctx.arc(-5,0,15,Math.PI,0); ctx.arc(14,-2,20,Math.PI,0); ctx.fill(); ctx.restore();
   }
-  function pipe(x, y, h, top) {
-    ctx.fillStyle = "#42552b"; ctx.fillRect(x-1, y, C.GATE_W+2, h);
-    ctx.fillStyle = "#b4dd77"; ctx.fillRect(x+2,y,C.GATE_W-4,h);
-    ctx.fillStyle = "#c9ed95"; ctx.fillRect(x+5,y,9,h);
-    ctx.fillStyle = "#8bb756"; ctx.fillRect(x+C.GATE_W-12,y,10,h);
-    ctx.strokeStyle = "#a1ca64"; ctx.lineWidth = 1;
-    for (let yy=y+20; yy<y+h-10; yy+=34) {
-      ctx.beginPath(); ctx.moveTo(x+22,yy); ctx.lineTo(x+32,yy); ctx.lineTo(x+32,yy+15); ctx.lineTo(x+41,yy+15); ctx.stroke();
-      ctx.fillStyle="#92b85c";ctx.fillRect(x+20,yy-2,4,4);
+  // A graphics card standing on end: fan shroud, PCB edge with PCIe fingers,
+  // and the I/O bracket as the cap facing the gap. It fills the same box as the collider.
+  function gpu(x, y, h, top) {
+    const w=C.GATE_W, capY=top ? y+h-22 : y, fanX=x+37, R=29;
+    ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
+    ctx.fillStyle="#2f4a1f";ctx.fillRect(x+w-9,y,9,h);
+    ctx.fillStyle="#d9b24a";for(let yy=y+2;yy<y+h;yy+=6)ctx.fillRect(x+w-6,yy,5,4);
+    ctx.fillStyle="#20251d";ctx.fillRect(x,y,w-8,h);
+    ctx.fillStyle="#3a4134";ctx.fillRect(x+w-10,y,2,h);
+    ctx.fillStyle="#bcf34b";ctx.fillRect(x+3,y,3,h);
+    // Fans start at the bracket and repeat along the card, spinning while the game runs.
+    const dir=top ? -1 : 1, first=top ? capY-6-R : capY+28+R;
+    for(let cy=first;top ? cy+R>y : cy-R<y+h;cy+=dir*66){
+      ctx.save();ctx.translate(fanX,cy);
+      ctx.fillStyle="#0f120d";ctx.beginPath();ctx.arc(0,0,R,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#4a5243";ctx.lineWidth=2;ctx.stroke();
+      ctx.rotate(frame*.18+cy*.05);ctx.fillStyle="#646d5a";
+      for(let i=0;i<7;i++){
+        const a=i*Math.PI*2/7, p=(r,t)=>[Math.cos(a+t)*r,Math.sin(a+t)*r];
+        ctx.beginPath();ctx.moveTo(...p(8,0));ctx.quadraticCurveTo(...p(19,.15),...p(26,.5));
+        ctx.arc(0,0,26,a+.5,a+.95);ctx.quadraticCurveTo(...p(16,.6),...p(8,.5));ctx.fill();
+      }
+      ctx.fillStyle="#20251d";ctx.beginPath();ctx.arc(0,0,8,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle="#bcf34b";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,5,0,Math.PI*2);ctx.stroke();
+      ctx.restore();
     }
-    const capY=top ? y+h-22 : y;
-    ctx.fillStyle="#42552b";ctx.fillRect(x-5,capY,C.GATE_W+10,22);
-    ctx.fillStyle="#bde880";ctx.fillRect(x-3,capY+2,C.GATE_W+6,18);
-    ctx.fillStyle="#d0f19e";ctx.fillRect(x-1,capY+3,C.GATE_W+2,4);
-    ctx.fillStyle="#8db85b";ctx.fillRect(x-2,capY+16,C.GATE_W+4,4);
+    ctx.restore();
+    ctx.fillStyle="#5d6257";ctx.fillRect(x-5,capY,w+10,22);
+    ctx.fillStyle="#c9ccc2";ctx.fillRect(x-3,capY+2,w+6,18);
+    ctx.fillStyle="#e4e6de";ctx.fillRect(x-3,capY+2,w+6,3);
+    ctx.fillStyle="#20251d";
+    for(let i=0;i<3;i++){ctx.beginPath();ctx.roundRect(x+3+i*16,capY+8,12,7,[1,1,3,3]);ctx.fill();}
+    ctx.beginPath();ctx.roundRect(x+52,capY+8,16,7,[1,1,3,3]);ctx.fill();
   }
   function drawHead(x, y, size, angle) {
     ctx.save();ctx.translate(x,y);ctx.rotate(angle);
@@ -198,7 +216,7 @@
       const gx=gate.x+lag*C.SPEED;
       if(gx>W+6||gx+C.GATE_W< -6)continue;
       const top=gate.gap-C.GATE_GAP/2, bottom=gate.gap+C.GATE_GAP/2;
-      pipe(gx,0,top,true);pipe(gx,bottom,C.HEIGHT-bottom,false);
+      gpu(gx,0,top,true);gpu(gx,bottom,C.HEIGHT-bottom,false);
     }
     for(const p of particles){ctx.globalAlpha=p.life;ctx.fillStyle="#92bc4e";ctx.fillRect(p.x,p.y,3,3);}ctx.globalAlpha=1;
     // The photo fits the existing 24px collider during play; larger pre-flight preview.
