@@ -1,11 +1,46 @@
 # Flappy Jensen
 
-A one-button browser flyer: flap or fall, dodge the pipes.
+A one-button browser flyer: flap or fall, dodge the pipes. The physics follow the
+original Flappy Bird (Android v1.3), scaled 1.5x.
+
+**Play it:** https://pierrunoyt.github.io/flappy-jensen/
+
+## Controls
+
+| Key | Action |
+|---|---|
+| Space, Up, W, Enter, tap | Flap |
+| P | Pause |
+| F | Full screen |
+| M | Sound on/off |
+
+Score 10, 20, 30, or 40 pipes for a bronze, silver, gold, or platinum medal.
+Your best score is saved in the browser.
+
+## Run locally
+
+No build step; it is plain HTML, CSS, and JavaScript.
 
 ```bash
 python -m http.server 8080 --directory web
 ```
 
-Open http://localhost:8080. Space, Up, W, or a tap flaps; P pauses, F toggles
-full screen, and M toggles sound. The best score is saved in the browser.
-Photo attribution and license information are in `web/credits.html`.
+Then open http://localhost:8080.
+
+## Project layout
+
+- `web/game.js`: game rules (physics, pipes, collisions, scoring), no drawing
+- `web/jensen.js`: rendering, input, sound, and UI
+- `web/index.html`, `web/jensen.css`: page and styles
+- `web/credits.html`: photo attribution and license information
+
+## Deploying
+
+The site is served by GitHub Pages from the `gh-pages` branch, which holds the
+contents of `web/`. After committing changes to `main`, publish them with:
+
+```bash
+git push origin `git subtree split --prefix web main`:gh-pages --force
+```
+
+Not affiliated with NVIDIA.
