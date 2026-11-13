@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3e9">
+  <title>Flappy Jensen — The sky is the limit.</title>
+  <link rel="stylesheet" href="jensen.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="Flappy Jensen home"><span class="brand-icon">fj.</span> OFF-DUTY ARCADE</a>
+    <span class="edition">ONE BUTTON. UNLIMITED POTENTIAL.</span>
+    <span class="live"><i></i> PLAY IN YOUR BROWSER</span>
+  </header>
+  <main>
+    <section class="intro">
+      <div class="eyebrow"><span>001</span> A NOT-SO-SERIOUS FLIGHT SIMULATOR</div>
+      <h1>FLAPPY<br><span>JENSEN</span><b>®</b></h1>
+      <p class="tagline">The sky is the limit.<br>The pipes are the problem.</p>
+      <p class="description">Big ideas. Small gaps. One flying Jensen.<br>Keep the head in the clouds and out of the pipes.</p>
+      <button class="primary intro-play" id="hero-play">LET’S FLY <span>↗</span></button>
+      <div class="flight-notes"><span class="key">SPACE</span><span>to flap</span><span class="divider">/</span><span class="tap-icon">↟</span><span>tap anywhere</span></div>
+      <div class="pilot"><div class="pilot-photo"><img src="jensen-head.png" alt="Jensen Huang"></div><div><span>YOUR PILOT</span><strong>Jensen Huang</strong><small>Founder. CEO. Unexpected aviator.</small></div><span class="pilot-number">01</span></div>
+    </section>
+    <section class="arcade" aria-label="Flappy Jensen game">
+      <div class="game-top"><span><i></i> <span id="status">STANDING BY</span></span><span class="high-score">BEST <b id="best">00</b></span></div>
+      <div class="game-screen" id="screen">
+        <canvas id="game" width="400" height="640" tabindex="0" aria-label="Flappy Jensen. Press Space, Up, W, or tap to flap. P to pause, F for full screen."></canvas>
+        <div class="score" id="score" aria-label="Score">0</div>
+        <div class="overlay" id="overlay">
+          <span class="overlay-label" id="overlay-label">PRE-FLIGHT CHECK</span>
+          <h2 id="overlay-title">READY TO<br>TAKE OFF?</h2>
+          <span class="medal" id="medal" hidden></span>
+          <p id="overlay-copy">A little flap goes a long way.</p>
+          <button class="primary" id="play">START FLIGHT <span>↗</span></button>
+          <span class="overlay-hint" id="overlay-hint">PRESS SPACE OR TAP TO START</span>
+        </div>
+        <div class="game-caption" id="caption">MIND THE GAP. TRUST THE JACKET.</div>
+      </div>
+      <div class="game-bottom"><span></span><div><button id="pause" title="Pause (P)" aria-label="Pause game">Ⅱ</button><button id="fullscreen" title="Full screen (F)" aria-label="Enter full screen" aria-pressed="false">⛶</button><button id="sound" title="Toggle sound (M)" aria-label="Mute sound" aria-pressed="false">♪</button></div></div>
+    </section>
+  </main>
+  <footer><span>BUILT FOR THE LOVE OF THE GAME. <span class="footer-muted">NOT AFFILIATED WITH NVIDIA.</span></span><nav><a href="credits.html">CREDITS ↗</a></nav></footer>
+  <script src="game.js"></script>
+  <script src="jensen.js"></script>
+</body>
+</html>
