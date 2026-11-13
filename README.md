@@ -36,11 +36,7 @@ Then open http://localhost:8080.
 
 ## Deploying
 
-The site is served by GitHub Pages from the `gh-pages` branch, which holds the
-contents of `web/`. After committing changes to `main`, publish them with:
-
-```bash
-git push origin `git subtree split --prefix web main`:gh-pages --force
-```
+Every push to `main` deploys `web/` to GitHub Pages via
+`.github/workflows/pages.yml`.
 
 Not affiliated with NVIDIA.
